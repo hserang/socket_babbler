@@ -2,6 +2,7 @@
 
 const HTTP_PORT = 8000
 const io = require('socket.io')()
+const _ = require('lodash')
 
 function getData() {
   // todo - move seed data to external source
@@ -38,7 +39,9 @@ function getData() {
     { name: "Lima", coordinates: [-77.0428,-12.0464], population: 10750000 }
   ]
 
-  return data
+  return _.compact(_.map(data, item => {
+    return Math.random() < .5 ? item : false
+  }))
 }
 
 io.on('connection', client => {
